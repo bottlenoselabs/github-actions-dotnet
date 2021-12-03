@@ -28,12 +28,10 @@ runs:
     - name: "Clone Git repository"
       uses: actions/checkout@v2
       with:
+        fetch-depth: 0
         submodules: 'recursive'
         repository: '${{ inputs.repository }}'
-
-    - name: "Git fetch all history for all tags and branches"
-      shell: bash
-      run: git fetch --prune --unshallow
+        path: 'dotnet'
 
     - name: "Install GitVersion"
       uses: gittools/actions/gitversion/setup@v0.9.6
@@ -44,6 +42,9 @@ runs:
           
     - name: "Execute GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
+      with:
+        targetPath: 'dotnet'
+        useConfigFile: true
 
     - name: "Set version"
       id: version
