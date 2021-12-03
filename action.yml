@@ -31,7 +31,6 @@ runs:
         fetch-depth: 0
         submodules: 'recursive'
         repository: '${{ inputs.repository }}'
-        path: 'dotnet'
 
     - name: "Install GitVersion"
       uses: gittools/actions/gitversion/setup@v0.9.6
@@ -42,8 +41,6 @@ runs:
           
     - name: "Execute GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
-      with:
-        targetPath: './dotnet'
 
     - name: "Set version"
       id: version
