@@ -43,8 +43,7 @@ runs:
     - name: "Execute GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
       with:
-        targetPath: 'dotnet'
-        useConfigFile: true
+        targetPath: './dotnet'
 
     - name: "Set version"
       id: version
