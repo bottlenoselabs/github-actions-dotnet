@@ -13,7 +13,7 @@ inputs:
     description: "A boolean indicating wether to run `dotnet pack` and upload NuGet packages."
     required: true
   publish-environment:
-    description: "The environment to use for releasing NuGet packages. "staging" uses MyGet.org feed and "release" uses NuGet.org feed."
+    description: "The environment to use for releasing NuGet packages. 'staging' uses MyGet.org feed and 'release' uses NuGet.org feed."
 
 runs:
   using: "composite"
