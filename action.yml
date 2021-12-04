@@ -67,25 +67,25 @@ runs:
       run: dotnet test --nologo --verbosity minimal --configuration Release --no-build
 
     - name: "Pack solution"
-      if: inputs.pack-is-enabled == true
+      if: inputs.pack-is-enabled == 'true'
       shell: bash
       run: dotnet pack --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Staging"
-      if: inputs.pack-is-enabled == true && inputs.publish-environment == 'staging'
+      if: inputs.pack-is-enabled == 'true' && inputs.publish-environment == 'staging'
       shell: bash
       run: |
         echo "NUGET_SOURCE_URL=https://www.myget.org/F/bottlenoselabs/api/v3/index.json" >> $GITHUB_ENV
         echo "NUGET_ACCESS_TOKEN=${{ inputs.nuget-access-token }}" >> $GITHUB_ENV
 
     - name: "Release"
-      if: inputs.pack-is-enabled == true && inputs.publish-environment == 'release'
+      if: inputs.pack-is-enabled == 'true' && inputs.publish-environment == 'release'
       shell: bash
       run: |
         echo "NUGET_SOURCE_URL=https://api.nuget.org/v3/index.json" >> $GITHUB_ENV
         echo "NUGET_ACCESS_TOKEN=${{ inputs.myget-access-token }}" >> $GITHUB_ENV
 
     - name: "Upload Packages"
-      if: inputs.pack-is-enabled == true
+      if: inputs.pack-is-enabled == 'true'
       shell: bash
       run: dotnet nuget push "./**/*.nupkg" --source $NUGET_SOURCE_URL --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
