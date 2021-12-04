@@ -14,6 +14,7 @@ inputs:
     required: true
   publish-environment:
     description: "The environment to use for releasing NuGet packages. 'staging' uses MyGet.org feed and 'release' uses NuGet.org feed."
+    required: true
   myget-access-token:
     description: "The access token to upload NuGet packages to myget.org staging environment."
     required: true
@@ -55,20 +56,20 @@ runs:
 
     - name: "Clean solution"
       shell: bash
-      run: dotnet clean --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean --verbosity quiet --configuration Release && dotnet nuget locals all --clear
 
     - name: "Build solution"
       shell: bash
-      run: dotnet build --nologo --verbosity normal --configuration Release /p:Version='${{ env.VERSION }}'
+      run: dotnet build --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
       shell: bash
-      run: dotnet test --nologo --verbosity normal --configuration Release --no-build
+      run: dotnet test --nologo --verbosity minimal --configuration Release --no-build
 
     - name: "Pack solution"
       if: inputs.pack-is-enabled == true
       shell: bash
-      run: dotnet pack --nologo --verbosity normal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: dotnet pack --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Staging"
       if: inputs.pack-is-enabled == true && inputs.publish-environment == 'staging'
