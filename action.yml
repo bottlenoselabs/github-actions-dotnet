@@ -6,6 +6,10 @@ inputs:
   repository:
     description: "The target repository."
     required: true
+  solution-or-project:
+    description: "The target solution or project."
+    required: false
+    default: ''
   dotnet-sdk-version:
     description: "The version of the .NET software development kit to use."
     required: true
@@ -56,20 +60,20 @@ runs:
 
     - name: "Clean solution"
       shell: bash
-      run: dotnet clean --verbosity quiet --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ${{ inputs.solution-or-project }} --verbosity quiet --configuration Release && dotnet nuget locals all --clear
 
     - name: "Build solution"
       shell: bash
-      run: dotnet build --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
+      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
 
     - name: "Test solution"
       shell: bash
-      run: dotnet test --nologo --verbosity minimal --configuration Release --no-build
+      run: dotnet test ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build
 
     - name: "Pack solution"
       if: inputs.is-enabled-pack == 'true'
       shell: bash
-      run: dotnet pack --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
 
     - name: "Staging"
       if: inputs.is-enabled-pack == 'true' && inputs.publish-environment == 'staging'
