@@ -47,11 +47,6 @@ runs:
     - name: "Execute GitVersion"
       uses: gittools/actions/gitversion/execute@v0.9.6
 
-    - name: "Set version"
-      id: version
-      shell: bash
-      run: echo "VERSION=$GITVERSION_NUGETVERSIONV2" >> $GITHUB_ENV
-
     - name: "Install .NET"
       uses: actions/setup-dotnet@v1
       with:
@@ -64,7 +59,7 @@ runs:
 
     - name: "Build solution"
       shell: bash
-      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release /p:Version='${{ env.VERSION }}'
+      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release /p:Version='${{ $GITVERSION_NUGETVERSIONV2 }}'
 
     - name: "Test solution"
       shell: bash
@@ -73,7 +68,7 @@ runs:
     - name: "Pack solution"
       if: inputs.is-enabled-pack == 'true'
       shell: bash
-      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ env.VERSION }}'
+      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ $GITVERSION_NUGETVERSIONV2 }}'
 
     - name: "Staging"
       if: inputs.is-enabled-pack == 'true' && inputs.publish-environment == 'staging'
