@@ -60,7 +60,7 @@ runs:
 
     - name: "Build solution"
       shell: bash
-      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release /p:Version='${{ steps.gitversion.outputs.nuGetVersionV2 }}'
+      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release -p:Version='${{ steps.gitversion.outputs.nuGetVersionV2 }}'
 
     - name: "Test solution"
       shell: bash
