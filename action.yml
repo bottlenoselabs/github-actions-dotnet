@@ -4,10 +4,14 @@ author: "bottlenoselabs"
 
 inputs:
   repository:
-    description: "The target repository."
+    description: "Repository name with owner on GitHub. For example, actions/checkout."
     required: true
+  ref:
+    description: "The branch, tag or SHA to checkout."
+    required: false
+    default: ''
   solution-or-project:
-    description: "The target solution or project."
+    description: "The target .NET solution (.sln) or C# project (.csproj)."
     required: false
     default: ''
   dotnet-sdk-version:
@@ -36,6 +40,7 @@ runs:
         fetch-depth: 0
         submodules: 'recursive'
         repository: '${{ inputs.repository }}'
+        ref: '${{ inputs.ref }}'
 
     - name: "Install GitVersion"
       uses: gittools/actions/gitversion/setup@v0.9.6
