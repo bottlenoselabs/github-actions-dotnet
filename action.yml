@@ -94,6 +94,6 @@ runs:
         echo "NUGET_ACCESS_TOKEN=${{ inputs.nuget-access-token }}" >> $GITHUB_ENV
 
     - name: "Upload Packages"
-      if: inputs.is-enabled-pack == 'true'
+      if: inputs.is-enabled-pack == 'true' && (inputs.upload-nuget-org == 'true' || inputs.upload-myget-org == 'true') 
       shell: bash
       run: dotnet nuget push "./**/*.nupkg" --source $NUGET_SOURCE_URL --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
