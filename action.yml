@@ -48,8 +48,7 @@ runs:
     - name: "Install GitVersion"
       uses: gittools/actions/gitversion/setup@v0.9.7
       with:
-        versionSpec: '6.x'
-        includePrerelease: true
+        versionSpec: '5.x'
           
     - name: "Execute GitVersion"
       id: gitversion
