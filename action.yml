@@ -32,6 +32,10 @@ inputs:
   nuget-access-token:
     description: "The access token to upload NuGet packages to nuget.org release environment."
     required: true
+  gitversion-target-path:
+    description: "GitVersion: Optionally supply the path to the working directory."
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -53,6 +57,8 @@ runs:
     - name: "Execute GitVersion"
       id: gitversion
       uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        target-path: '${{ inputs.gitversion-target-path }}'
 
     - name: "Install .NET"
       uses: actions/setup-dotnet@v1
