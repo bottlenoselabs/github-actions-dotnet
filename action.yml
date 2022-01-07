@@ -32,10 +32,14 @@ inputs:
   nuget-access-token:
     description: "The access token to upload NuGet packages to nuget.org release environment."
     required: true
-  gitversion-target-path:
-    description: "GitVersion: Optionally supply the path to the working directory."
+  gitversion-working-directory:
+    description: "GitVersion: Optionally supply the working directory."
     required: false
-    default: ''
+    default: '$(pwd)'
+  gitversion-config-file-path:
+    description: "GitVersion: Config file path."
+    required: false
+    default: 'GitVersion.yml'
 
 runs:
   using: "composite"
@@ -49,22 +53,20 @@ runs:
         repository: '${{ inputs.repository }}'
         ref: '${{ inputs.ref }}'
 
-    - name: "Install GitVersion"
-      uses: gittools/actions/gitversion/setup@v0.9.7
-      with:
-        versionSpec: '5.x'
-          
-    - name: "Execute GitVersion"
-      id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.7
-      with:
-        target-path: '${{ inputs.gitversion-target-path }}'
-
     - name: "Install .NET"
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '${{ inputs.dotnet-sdk-version }}'
         include-prerelease: true
+
+    - name: "Install GitVersion"
+      shell: bash
+      run: dotnet tool install --global GitVersion.Tool
+
+    - name: "GitVersion"
+      shell: bash
+      id: gitversion
+      run: "::set-output name=version::$(cd ${{ inputs.gitversion-working-directory }} && dotnet-gitversion /config ${{ inputs.gitversion-config-file-path }} /output json /showvariable NuGetVersionV2)
 
     - name: "Clean solution"
       shell: bash
@@ -72,7 +74,7 @@ runs:
 
     - name: "Build solution"
       shell: bash
-      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release -p:Version='${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.commitsSinceVersionSource }}'
+      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release -p:Version='${{ steps.gitversion.outputs.version }}'
 
     - name: "Test solution"
       shell: bash
@@ -81,7 +83,7 @@ runs:
     - name: "Pack solution"
       if: inputs.is-enabled-pack == 'true'
       shell: bash
-      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.commitsSinceVersionSource }}'
+      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ steps.gitversion.outputs.version }}'
 
     - name: "Staging"
       if: inputs.is-enabled-pack == 'true' && inputs.upload-myget-org == 'true'
