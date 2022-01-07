@@ -69,7 +69,7 @@ runs:
       run: |
         cd ${{ inputs.gitversion-working-directory }}
         VERSION=$(dotnet-gitversion /config ${{ inputs.gitversion-config-file-path }} /output json /showvariable NuGetVersionV2)
-        "::set-output name=version::$VERSION"
+        echo "::set-output name=version::$VERSION"
 
     - name: "Clean solution"
       shell: bash
