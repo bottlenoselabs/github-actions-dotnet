@@ -72,7 +72,7 @@ runs:
 
     - name: "Build solution"
       shell: bash
-      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release -p:Version='${{ steps.gitversion.outputs.nuGetVersionV2 }}'
+      run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release -p:Version='${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.commitsSinceVersionSource }}'
 
     - name: "Test solution"
       shell: bash
@@ -81,7 +81,7 @@ runs:
     - name: "Pack solution"
       if: inputs.is-enabled-pack == 'true'
       shell: bash
-      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ steps.gitversion.outputs.nuGetVersionV2 }}'
+      run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.commitsSinceVersionSource }}'
 
     - name: "Staging"
       if: inputs.is-enabled-pack == 'true' && inputs.upload-myget-org == 'true'
