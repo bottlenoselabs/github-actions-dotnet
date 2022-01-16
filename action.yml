@@ -88,21 +88,12 @@ runs:
       shell: bash
       run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ steps.gitversion.outputs.version }}'
 
-    - name: "Staging"
+    - name: "Upload Packages (MyGet)"
       if: inputs.is-enabled-pack == 'true' && inputs.upload-myget-org == 'true'
       shell: bash
-      run: |
-        echo "NUGET_SOURCE_URL=https://www.myget.org/F/bottlenoselabs/api/v3/index.json" >> $GITHUB_ENV
-        echo "NUGET_ACCESS_TOKEN=${{ inputs.myget-access-token }}" >> $GITHUB_ENV
+      run: dotnet nuget push "./**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key ${{ inputs.myget-access-token }}
 
-    - name: "Release"
+    - name: "Upload Packages (NuGet)"
       if: inputs.is-enabled-pack == 'true' && inputs.upload-nuget-org == 'true'
       shell: bash
-      run: |
-        echo "NUGET_SOURCE_URL=https://api.nuget.org/v3/index.json" >> $GITHUB_ENV
-        echo "NUGET_ACCESS_TOKEN=${{ inputs.nuget-access-token }}" >> $GITHUB_ENV
-
-    - name: "Upload Packages"
-      if: inputs.is-enabled-pack == 'true' && (inputs.upload-nuget-org == 'true' || inputs.upload-myget-org == 'true') 
-      shell: bash
-      run: dotnet nuget push "./**/*.nupkg" --source $NUGET_SOURCE_URL --skip-duplicate --api-key $NUGET_ACCESS_TOKEN
+      run: dotnet nuget push "./**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ inputs.nuget-access-token }}
