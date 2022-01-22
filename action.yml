@@ -6,6 +6,7 @@ inputs:
   repository:
     description: "Repository name with owner on GitHub. For example, actions/checkout."
     required: true
+    default: '${{ github.repository }}'
   ref:
     description: "The branch, tag or SHA to checkout."
     required: false
