@@ -33,11 +33,9 @@ inputs:
   myget-access-token:
     description: "The access token to upload NuGet packages to myget.org staging environment."
     required: true
-    default: '${{ secrets.MYGET_ACCESS_TOKEN }}'
   nuget-access-token:
     description: "The access token to upload NuGet packages to nuget.org release environment."
     required: true
-    default: '${{ secrets.NUGET_ACCESS_TOKEN }}'
   gitversion-working-directory:
     description: "GitVersion: Optionally supply the working directory."
     required: false
