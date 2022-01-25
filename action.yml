@@ -20,16 +20,16 @@ inputs:
     required: true
   is-enabled-pack:
     description: "A boolean indicating wether to run `dotnet pack` and upload NuGet packages."
-    required: true
-    default: 'true'
+    required: false
+    default: 'false'
   upload-nuget-org:
     description: "Determines wether to upload to the NuGet.org feed."
     required: false
-    default: "${{ startsWith(github.ref, 'refs/tags/v') }}"
+    default: 'false' #"${{ startsWith(github.ref, 'refs/tags/v') }}"
   upload-myget-org:
     description: "Determines wether to upload to the MyGet.org feed."
     required: false
-    default: "${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
+    default: 'false' #"${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
   myget-access-token:
     description: "The access token to upload NuGet packages to myget.org staging environment."
     required: true
