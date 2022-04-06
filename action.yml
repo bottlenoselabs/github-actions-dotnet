@@ -3,14 +3,6 @@ description: "Build, test, pack, and publish a .NET repository."
 author: "bottlenoselabs"
 
 inputs:
-  repository:
-    description: "Repository name with owner on GitHub. For example, actions/checkout."
-    required: true
-    default: '${{ github.repository }}'
-  ref:
-    description: "The branch, tag or SHA to checkout."
-    required: false
-    default: ''
   solution-or-project:
     description: "The target .NET solution (.sln) or C# project (.csproj)."
     required: false
@@ -48,14 +40,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-
-    - name: "Clone Git repository"
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        submodules: 'recursive'
-        repository: '${{ inputs.repository }}'
-        ref: '${{ inputs.ref }}'
 
     - name: "Install .NET"
       uses: actions/setup-dotnet@v1
