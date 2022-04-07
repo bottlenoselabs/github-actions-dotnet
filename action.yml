@@ -55,7 +55,8 @@ runs:
       shell: bash
       id: gitversion
       run: |
-        cd ${{ inputs.gitversion-working-directory }}
+        DIR_GITVERSION=$(sed -e 's#^J:##' -e 's#\\#/#g' <<< "${{ inputs.gitversion-working-directory }}")
+        cd $DIR_GITVERSION
         VERSION=$(dotnet-gitversion /config ${{ inputs.gitversion-config-file-path }} /output json /showvariable NuGetVersionV2)
         echo "::set-output name=version::$VERSION"
 
