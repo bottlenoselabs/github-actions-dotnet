@@ -47,22 +47,22 @@ else
     exit 1
 fi
 
-source "$DIR/scripts/clean.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH
+"$DIR/scripts/clean.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH
 exit_if_last_command_failed
 
-source "$DIR/scripts/version.sh" $GIT_DIRECTORY_PATH
+"$DIR/scripts/version.sh" $GIT_DIRECTORY_PATH
 exit_if_last_command_failed
 
-source "$DIR/scripts/build.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH $DOTNET_APP_VERSION
+"$DIR/scripts/build.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH $DOTNET_APP_VERSION
 exit_if_last_command_failed
 
-source "$DIR/scripts/test.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH
+"$DIR/scripts/test.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH
 exit_if_last_command_failed
 
-source "$DIR/scripts/pack.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH $DOTNET_APP_VERSION
+"$DIR/scripts/pack.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH $DOTNET_APP_VERSION
 exit_if_last_command_failed
 
-source "$DIR/scripts/upload_nuget_packages.sh $DOTNET_APP_NUGET_PACKAGES_ACCESS_TOKEN_MYGET $DOTNET_APP_NUGET_PACKAGES_ACCESS_TOKEN_NUGET
+"$DIR/scripts/upload_nuget_packages.sh $DOTNET_APP_NUGET_PACKAGES_ACCESS_TOKEN_MYGET $DOTNET_APP_NUGET_PACKAGES_ACCESS_TOKEN_NUGET
 exit_if_last_command_failed
 
 echo "Exit: dotnet.sh"
