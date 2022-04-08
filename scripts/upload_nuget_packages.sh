@@ -8,11 +8,11 @@
 
 echo "Entered: upload_nuget_packages.sh"
 
-if [[ ! -z "$1" ]]; then
+if [[ ! -z "$2" ]]; then
     dotnet nuget push "$1/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $2
 fi
 
-if [[ ! -z "$2" ]]; then
+if [[ ! -z "$3" ]]; then
     dotnet nuget push "$1/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $3
 fi
 
