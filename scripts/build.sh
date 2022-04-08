@@ -7,7 +7,6 @@
 
 echo "Entered: build.sh"
 
-dotnet restore $1 --nologo --verbosity minimal
-dotnet build $1 --nologo --no-restore --verbosity minimal --configuration Release -p:Version=$2
+dotnet build $1 --nologo --verbosity minimal --configuration Release -p:Version=$2
 
 echo "Exited: build.sh"
