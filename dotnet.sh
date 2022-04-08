@@ -7,6 +7,8 @@
 #   $4: The access token to upload NuGet packages to nuget.org. Leave empty to prevent uploading NuGet packages to nuget.org.
 # OUTPUT: The built .NET application on disk.
 
+echo "Entered: dotnet.sh"
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 function exit_if_last_command_failed() {
@@ -62,3 +64,5 @@ exit_if_last_command_failed
 
 source "$DIR/scripts/upload_nuget_packages.sh $DOTNET_APP_NUGET_PACKAGES_ACCESS_TOKEN_MYGET $DOTNET_APP_NUGET_PACKAGES_ACCESS_TOKEN_NUGET
 exit_if_last_command_failed
+
+echo "Exit: dotnet.sh"
