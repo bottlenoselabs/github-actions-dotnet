@@ -50,9 +50,9 @@ runs:
     - name: "Windows"
       if: runner.os == 'Windows'
       shell: bash
-      run: source ${{ github.action_path }}\scripts\dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.upload-myget-org && inputs.myget-access-token || '' }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
+      run: source ${{ github.action_path }}\dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.upload-myget-org && inputs.myget-access-token || '' }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
 
     - name: "Unix-like"
       if: runner.os != 'Windows'
       shell: bash
-      run: source ${{ github.action_path }}/scripts/dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.upload-myget-org && inputs.myget-access-token || '' }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
+      run: source ${{ github.action_path }}/dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.upload-myget-org && inputs.myget-access-token || '' }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
