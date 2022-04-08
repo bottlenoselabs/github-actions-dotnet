@@ -6,6 +6,8 @@
 
 echo "Entered: test.sh"
 
+echo "Testing the .NET application '$1'..."
 dotnet test $1 --nologo --verbosity minimal --configuration Release --no-build
+echo "Testing the .NET application '$1': Finished."
 
 echo "Exited: test.sh"

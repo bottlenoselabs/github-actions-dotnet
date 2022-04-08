@@ -7,6 +7,8 @@
 
 echo "Entered: pack.sh"
 
+echo "Packing the .NET application '$1'..."
 dotnet pack $1 --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion=$2
+echo "Packing the .NET application '$1': Finished."
 
 echo "Exited: pack.sh"

@@ -20,6 +20,8 @@ else
     echo "Found installed .NET GitVersion tool: $DOTNET_GITVERSION_TOOL_VERSION"
 fi
 
+echo "Getting SemVer2 for the Git repository '$1'..."
 DOTNET_APP_VERSION=$(~/.dotnet/tools/dotnet-gitversion "$GIT_DIRECTORY_PATH" /output json /showvariable NuGetVersionV2)
+echo "Getting SemVer2 for the Git repository '$1': Finished. The version is '$DOTNET_APP_VERSION'."
 
 echo "Exited: version.sh"

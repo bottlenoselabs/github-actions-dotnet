@@ -9,11 +9,15 @@
 echo "Entered: upload_nuget_packages.sh"
 
 if [[ ! -z "$2" ]]; then
+    echo "Uploading NuGet packages to myget.org..."
     dotnet nuget push "$1/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $2
+    echo "Uploading NuGet packages to myget.org: Finished."
 fi
 
 if [[ ! -z "$3" ]]; then
+    echo "Uploading NuGet packages to nuget.org..."
     dotnet nuget push "$1/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $3
+    echo "Uploading NuGet packages to nuget.org: Finished."
 fi
 
 echo "Exited: upload_nuget_packages.sh"

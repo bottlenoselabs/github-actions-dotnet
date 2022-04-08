@@ -7,6 +7,8 @@
 echo "Entered: clean.sh"
 
 # dotnet nuget locals all --clear
+echo "Cleaning the .NET application '$1'..."
 dotnet clean $1 --verbosity quiet --configuration Release
+echo "Cleaning the .NET application '$1': Finished."
 
 echo "Exited: clean.sh"

@@ -7,6 +7,8 @@
 
 echo "Entered: build.sh"
 
+echo "Building the .NET application '$1'..."
 dotnet build $1 --nologo --verbosity minimal --configuration Release -p:Version=$2
+echo "Building the .NET application '$1': Finished."
 
 echo "Exited: build.sh"
