@@ -49,7 +49,7 @@ runs:
 
     - name: "Install GitVersion"
       shell: bash
-      run: ${{ github.workspace }}/scripts/install-gtiversion.sh
+      run: ${{ github.action_path }}/scripts/install-gitversion.sh
 
     - name: "GitVersion"
       id: gitversion
