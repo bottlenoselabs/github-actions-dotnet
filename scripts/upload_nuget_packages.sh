@@ -8,10 +8,6 @@
 
 echo "Entered: upload_nuget_packages.sh"
 
-echo "\tGit directory path: $1"
-echo "\tMyGet API key: $2"
-echo "\tNuGet API key: $3"
-
 if [[ ! -z "$2" ]]; then
     dotnet nuget push "$1/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $2
 fi
