@@ -48,8 +48,8 @@ runs:
         include-prerelease: true
 
     - name: "Install GitVersion"
-      shell: bash
-      run: "${{ github.action_path }}/scripts/install-gitversion.sh"
+      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
+      run: '${{ github.action_path }}/scripts/install-gitversion.sh'
 
     - name: "GitVersion"
       id: gitversion
