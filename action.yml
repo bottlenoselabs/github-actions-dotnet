@@ -38,9 +38,6 @@ inputs:
     default: 'GitVersion.yml'
 
 runs:
-  defaults:
-    run:
-      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
   using: "composite"
   steps:
 
