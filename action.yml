@@ -70,7 +70,7 @@ runs:
     - name: "GitVersion: Windows"
       if: runner.os == 'Windows'
       id: gitversion
-      bash: shell
+      shell: bash
       run: |
         VERSION=$(${{ github.action_path }}\scripts\gitversion.sh)
         echo "::set-output name=version::$VERSION"
@@ -78,7 +78,7 @@ runs:
     - name: "GitVersion: Unix-like"
       if: runner.os != 'Windows'
       id: gitversion
-      bash: shell
+      shell: bash
       run: |
         VERSION=$(${{ github.action_path }}/scripts/gitversion.sh)
         echo "::set-output name=version::$VERSION"
