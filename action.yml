@@ -38,6 +38,9 @@ inputs:
     default: 'GitVersion.yml'
 
 runs:
+  defaults:
+    run:
+      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
   using: "composite"
   steps:
 
@@ -48,39 +51,31 @@ runs:
         include-prerelease: true
 
     - name: "Install GitVersion"
-      shell: ${{ runner.os == 'Windows' && 'pwsh' || 'bash' }}
       run: '${{ github.action_path }}/scripts/install-gitversion.sh'
 
     - name: "GitVersion"
       id: gitversion
-      shell: bash
       run: |
         VERSION=$(dotnet-gitversion "${{ inputs.gitversion-working-directory }}" /config "${{ inputs.gitversion-config-file-path }}" /output json /showvariable NuGetVersionV2)
         echo "::set-output name=version::$VERSION"
 
     - name: "Clean solution"
-      shell: bash
       run: dotnet clean ${{ inputs.solution-or-project }} --verbosity quiet --configuration Release && dotnet nuget locals all --clear
 
     - name: "Build solution"
-      shell: bash
       run: dotnet build ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release -p:Version='${{ steps.gitversion.outputs.version }}'
 
     - name: "Test solution"
-      shell: bash
       run: dotnet test ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build
 
     - name: "Pack solution"
       if: inputs.is-enabled-pack == 'true'
-      shell: bash
       run: dotnet pack ${{ inputs.solution-or-project }} --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion='${{ steps.gitversion.outputs.version }}'
 
     - name: "Upload Packages (MyGet)"
       if: inputs.is-enabled-pack == 'true' && inputs.upload-myget-org == 'true'
-      shell: bash
       run: dotnet nuget push "./**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key ${{ inputs.myget-access-token }}
 
     - name: "Upload Packages (NuGet)"
       if: inputs.is-enabled-pack == 'true' && inputs.upload-nuget-org == 'true'
-      shell: bash
       run: dotnet nuget push "./**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ inputs.nuget-access-token }}
