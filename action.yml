@@ -52,7 +52,6 @@ runs:
       run: ${{ github.workspace }}/scripts/install-gtiversion.sh
 
     - name: "GitVersion"
-      shell: ${{ <condition> && pwsh || bash }}
       id: gitversion
       run: |
         VERSION=$(dotnet-gitversion ${{ inputs.gitversion-working-directory }} /config ${{ inputs.gitversion-config-file-path }} /output json /showvariable NuGetVersionV2)
