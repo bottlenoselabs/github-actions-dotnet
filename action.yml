@@ -79,4 +79,4 @@ runs:
           API_KEY_NUGET=""
         fi
 
-        source "${{ github.action_path }}\dotnet.sh" "${{ github.workspace }}" "${{ inputs.solution-or-project }}" "$API_KEY_MYGET" "$API_KEY_NUGET"
+        source "${{ github.action_path }}/dotnet.sh" "${{ github.workspace }}" "${{ inputs.solution-or-project }}" "$API_KEY_MYGET" "$API_KEY_NUGET"
