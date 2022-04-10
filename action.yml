@@ -28,14 +28,6 @@ inputs:
   nuget-access-token:
     description: "The access token to upload NuGet packages to nuget.org release environment."
     required: true
-  gitversion-working-directory:
-    description: "GitVersion: Optionally supply the working directory."
-    required: false
-    default: '$(pwd)'
-  gitversion-config-file-path:
-    description: "GitVersion: Config file path."
-    required: false
-    default: 'GitVersion.yml'
 
 runs:
   using: "composite"
@@ -50,14 +42,41 @@ runs:
     - name: "Windows"
       if: runner.os == 'Windows'
       shell: bash
-      run: source ${{ github.action_path }}\dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.upload-myget-org && inputs.myget-access-token || '' }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
+      run: |
+
+        IS_ENABLED_UPLOAD_MYGET="${{ inputs.is-enabled-pack && inputs.is-enabled-upload-myget }}"
+        if [[ "$IS_ENABLED_UPLOAD_MYGET" = "true" ]]; then
+          API_KEY_MYGET="${{ inputs.myget-access-token }}"
+        else
+          API_KEY_MYGET=""
+        fi
+
+        IS_ENABLED_UPLOAD_NUGET="${{ inputs.is-enabled-pack && inputs.is-enabled-upload-nuget }}"
+        if [[ "$IS_ENABLED_UPLOAD_NUGET" = "true" ]]; then
+          API_KEY_NUGET="${{ inputs.nuget-access-token }}"
+        else
+          API_KEY_NUGET=""
+        fi
+
+        source "${{ github.action_path }}\dotnet.sh" "${{ github.workspace }}" "${{ inputs.solution-or-project }}" "$API_KEY_MYGET" "$API_KEY_NUGET"
 
     - name: "Unix-like"
       if: runner.os != 'Windows'
       shell: bash
       run: |
-        IS_ENABLED_UPLOAD_MYGET='${{ inputs.is-enabled-pack && inputs.is-enabled-upload-myget }}'
+
+        IS_ENABLED_UPLOAD_MYGET="${{ inputs.is-enabled-pack && inputs.is-enabled-upload-myget }}"
         if [[ "$IS_ENABLED_UPLOAD_MYGET" = "true" ]]; then
-          API_KEY_NUGET
+          API_KEY_MYGET="${{ inputs.myget-access-token }}"
+        else
+          API_KEY_MYGET=""
         fi
-        source ${{ github.action_path }}/dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.is-enabled-upload-myget }} ${{ inputs.myget-access-token }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
+
+        IS_ENABLED_UPLOAD_NUGET="${{ inputs.is-enabled-pack && inputs.is-enabled-upload-nuget }}"
+        if [[ "$IS_ENABLED_UPLOAD_NUGET" = "true" ]]; then
+          API_KEY_NUGET="${{ inputs.nuget-access-token }}"
+        else
+          API_KEY_NUGET=""
+        fi
+
+        source "${{ github.action_path }}\dotnet.sh" "${{ github.workspace }}" "${{ inputs.solution-or-project }}" "$API_KEY_MYGET" "$API_KEY_NUGET"
