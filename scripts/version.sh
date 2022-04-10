@@ -6,9 +6,15 @@
 
 echo "Entered: version.sh"
 
+echo "Searching for GitVersion installed as a .NET tool..."
 DOTNET_GITVERSION_TOOL_VERSION="$(dotnet tool list --global | grep "gitversion.tool" | tr -s " " "\n" | sed -n 2p)"
-if [[ -z "$DOTNET_GITVERSION_TOOL_VERSION" ]]; then
-    echo "Did not find installed .NET GitVersion tool. Installing..."
+if [ $? -ne 0 ]; then
+    echo "Searching for GitVersion installed as a .NET tool: Failed."
+    exit 1
+fi
+
+if [[ -z $DOTNET_GITVERSION_TOOL_VERSION ]]; then
+    echo "Did not find GitVersion installed as a .NET tool. Installing..."
     dotnet tool install --global GitVersion.Tool
     if [ $? -eq 0 ]; then
         echo "Installing .NET GitVersion command line tool: Success."
@@ -17,7 +23,7 @@ if [[ -z "$DOTNET_GITVERSION_TOOL_VERSION" ]]; then
         exit 1
     fi
 else
-    echo "Found installed .NET GitVersion tool: $DOTNET_GITVERSION_TOOL_VERSION"
+    echo "Searching for GitVersion installed as a .NET tool: Success. GitVersion: $DOTNET_GITVERSION_TOOL_VERSION"
 fi
 
 echo "Getting SemVer2 for the Git repository '$1'..."
