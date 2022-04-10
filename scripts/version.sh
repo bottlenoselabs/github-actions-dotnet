@@ -15,7 +15,7 @@ else
 fi
 
 echo "Getting SemVer2 for the Git repository '$1'..."
-DOTNET_APP_VERSION=$(~/.dotnet/tools/dotnet-gitversion $1 /output json /showvariable NuGetVersionV2)
+DOTNET_APP_VERSION="$(~/.dotnet/tools/dotnet-gitversion $1 /output json /showvariable NuGetVersionV2)"
 echo "Getting SemVer2 for the Git repository '$1': Finished. Verion: '$DOTNET_APP_VERSION'."
 
 echo "Exited: version.sh $1"
