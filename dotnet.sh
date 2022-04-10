@@ -34,9 +34,9 @@ else
 fi
 
 if [[ ! -z "$3" ]]; then
-    DOTNET_APP_API_KEY_NMYGET="$3"
+    DOTNET_APP_API_KEY_MYGET="$3"
 else
-    DOTNET_APP_API_KEY_NMYGET=""
+    DOTNET_APP_API_KEY_MYGET=""
 fi
 
 if [[ ! -z "$4" ]]; then
