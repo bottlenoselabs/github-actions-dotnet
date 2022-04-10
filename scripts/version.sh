@@ -7,13 +7,10 @@
 echo "Entered: version.sh"
 
 echo "Searching for GitVersion installed as a .NET tool..."
-DOTNET_GITVERSION_TOOL_VERSION="$(dotnet tool list --global | grep "gitversion.tool" | tr -s " " "\n" | sed -n 2p)"
-if [ $? -ne 0 ]; then
-    echo "Searching for GitVersion installed as a .NET tool: Failed."
-    exit 1
-fi
+# dotnet tool list --global | grep 'gitversion.tool' | tr -s " " "\n" | sed -n 2p
+DOTNET_GITVERSION="$(dotnet tool list --global | grep 'gitversion.tool')"
 
-if [[ -z $DOTNET_GITVERSION_TOOL_VERSION ]]; then
+if [[ -z $DOTNET_GITVERSION ]]; then
     echo "Did not find GitVersion installed as a .NET tool. Installing..."
     dotnet tool install --global GitVersion.Tool
     if [ $? -eq 0 ]; then
@@ -23,11 +20,11 @@ if [[ -z $DOTNET_GITVERSION_TOOL_VERSION ]]; then
         exit 1
     fi
 else
-    echo "Searching for GitVersion installed as a .NET tool: Success. GitVersion: $DOTNET_GITVERSION_TOOL_VERSION"
+    echo "Searching for GitVersion installed as a .NET tool: Success. GitVersion: $DOTNET_GITVERSION"
 fi
 
 echo "Getting SemVer2 for the Git repository '$1'..."
-DOTNET_APP_VERSION=$(~/.dotnet/tools/dotnet-gitversion "$GIT_DIRECTORY_PATH" /output json /showvariable NuGetVersionV2)
-echo "Getting SemVer2 for the Git repository '$1': Finished. The version is '$DOTNET_APP_VERSION'."
+DOTNET_APP_VERSION=$(~/.dotnet/tools/dotnet-gitversion $1 /output json /showvariable NuGetVersionV2)
+echo "Getting SemVer2 for the Git repository '$1': Finished. Verion: '$DOTNET_APP_VERSION'."
 
 echo "Exited: version.sh"
