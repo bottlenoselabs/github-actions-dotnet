@@ -7,7 +7,7 @@
 #   $4: The access token to upload NuGet packages to nuget.org. Leave empty to prevent uploading NuGet packages to nuget.org.
 # OUTPUT: The built .NET application on disk.
 
-echo "Entered: dotnet.sh"
+echo "Entered: dotnet.sh $1 $2 $3 $4"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -60,7 +60,7 @@ exit_if_last_command_failed
 source "$DIR/scripts/pack.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH $DOTNET_APP_VERSION
 exit_if_last_command_failed
 
-source "$DIR/scripts/upload_nuget_packages.sh" $GIT_DIRECTORY_PATH $DOTNET_APP_API_KEY_MYGET $DOTNET_APP_API_KEY_NUGET
+source "$DIR/scripts/upload_nuget_packages.sh" "$GIT_DIRECTORY_PATH" "$DOTNET_APP_API_KEY_MYGET" "$DOTNET_APP_API_KEY_NUGET"
 exit_if_last_command_failed
 
-echo "Exit: dotnet.sh"
+echo "Exit: dotnet.sh $1 $2 $3 $4"

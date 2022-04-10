@@ -5,10 +5,10 @@
 #   $2: The version string to use for building the .NET solution or C# project.
 # OUTPUT: A built .NET application on disk.
 
-echo "Entered: build.sh"
+echo "Entered: build.sh $1 $2"
 
 echo "Building the .NET application '$1'..."
 dotnet build $1 --nologo --verbosity minimal --configuration Release -p:Version=$2
 echo "Building the .NET application '$1': Finished."
 
-echo "Exited: build.sh"
+echo "Exited: build.sh $1 $2"

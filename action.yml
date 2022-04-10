@@ -14,14 +14,14 @@ inputs:
     description: "A boolean indicating wether to run `dotnet pack` and upload NuGet packages."
     required: false
     default: 'false'
-  upload-nuget-org:
-    description: "Determines wether to upload to the NuGet.org feed."
-    required: false
-    default: 'false' #"${{ startsWith(github.ref, 'refs/tags/v') }}"
-  upload-myget-org:
+  is-enabled-upload-myget:
     description: "Determines wether to upload to the MyGet.org feed."
     required: false
     default: 'false' #"${{ github.event_name == 'push' || startsWith(github.ref, 'refs/tags/v') }}"
+  is-enabled-upload-nuget:
+    description: "Determines wether to upload to the NuGet.org feed."
+    required: false
+    default: 'false' #"${{ startsWith(github.ref, 'refs/tags/v') }}"
   myget-access-token:
     description: "The access token to upload NuGet packages to myget.org staging environment."
     required: true
@@ -55,4 +55,9 @@ runs:
     - name: "Unix-like"
       if: runner.os != 'Windows'
       shell: bash
-      run: source ${{ github.action_path }}/dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.upload-myget-org && inputs.myget-access-token || '' }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}
+      run: |
+        IS_ENABLED_UPLOAD_MYGET='${{ inputs.is-enabled-pack && inputs.is-enabled-upload-myget }}'
+        if [[ "$IS_ENABLED_UPLOAD_MYGET" = "true" ]]; then
+          API_KEY_NUGET
+        fi
+        source ${{ github.action_path }}/dotnet.sh ${{ github.workspace }} ${{ inputs.solution-or-project }} ${{ inputs.is-enabled-pack && inputs.is-enabled-upload-myget }} ${{ inputs.myget-access-token }} ${{ inputs.is-enabled-pack && inputs.upload-nuget-org && inputs.nuget-access-token || '' }}

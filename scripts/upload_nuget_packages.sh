@@ -6,18 +6,30 @@
 #   $3: The access token to upload NuGet packages to nuget.org. Leave empty to prevent uploading NuGet packages to nuget.org.
 # OUTPUT: Uploaded NuGet packages.
 
-echo "Entered: upload_nuget_packages.sh"
+echo "Entered: upload_nuget_packages.sh $1 $2 $3"
 
-if [[ ! -z "$2" ]]; then
+if [[ ! "$2" ]]; then
+    echo "Uploading NuGet packages to myget.org: Skipped."
+else
     echo "Uploading NuGet packages to myget.org..."
     dotnet nuget push "$1/**/*.nupkg" --source https://www.myget.org/F/bottlenoselabs/api/v3/index.json --skip-duplicate --api-key $2
-    echo "Uploading NuGet packages to myget.org: Finished."
+    if [ $? -ne 0 ]; then
+        echo "Uploading NuGet packages to myget.org: Failed."
+    else
+        echo "Uploading NuGet packages to myget.org: Success."
+    fi
 fi
 
-if [[ ! -z "$3" ]]; then
+if [[ ! "$3" ]]; then
+    echo "Uploading NuGet packages to nuget.org: Skipped."
+else
     echo "Uploading NuGet packages to nuget.org..."
     dotnet nuget push "$1/**/*.nupkg" --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key $3
-    echo "Uploading NuGet packages to nuget.org: Finished."
+    if [ $? -ne 0 ]; then
+        echo "Uploading NuGet packages to nuget.org: Failed."
+    else
+        echo "Uploading NuGet packages to nuget.org: Success."
+    fi
 fi
 
-echo "Exited: upload_nuget_packages.sh"
+echo "Exited: upload_nuget_packages.sh $1 $2 $3"

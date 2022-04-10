@@ -4,7 +4,7 @@
 #   $1: Directory path of the Git repository.
 # OUTPUT: Text file `version.txt` with SemVer2 value.
 
-echo "Entered: version.sh"
+echo "Entered: version.sh $1"
 
 echo "Installing .NET GitVersion command line tool..."
 dotnet tool install --global GitVersion.Tool
@@ -18,4 +18,4 @@ echo "Getting SemVer2 for the Git repository '$1'..."
 DOTNET_APP_VERSION=$(~/.dotnet/tools/dotnet-gitversion $1 /output json /showvariable NuGetVersionV2)
 echo "Getting SemVer2 for the Git repository '$1': Finished. Verion: '$DOTNET_APP_VERSION'."
 
-echo "Exited: version.sh"
+echo "Exited: version.sh $1"

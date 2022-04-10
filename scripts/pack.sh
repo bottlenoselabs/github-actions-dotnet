@@ -5,10 +5,10 @@
 #   $2: The version to use for packing the .NET solution or C# project.
 # OUTPUT: A packed .NET application.
 
-echo "Entered: pack.sh"
+echo "Entered: pack.sh $1 $2"
 
 echo "Packing the .NET application '$1' with version '$2'..."
 dotnet pack $1 --nologo --verbosity minimal --configuration Release --no-build -p:PackageVersion=$2
 echo "Packing the .NET application '$1' with version '$2': Finished."
 
-echo "Exited: pack.sh"
+echo "Exited: pack.sh $1 $2"

@@ -4,11 +4,11 @@
 #   $1: The file path of the .NET solution (.sln) file or C# project (.csproj) file.
 # OUTPUT: Removed files and directories.
 
-echo "Entered: clean.sh"
+echo "Entered: clean.sh $1"
 
 # dotnet nuget locals all --clear
 echo "Cleaning the .NET application '$1'..."
 dotnet clean $1 --verbosity quiet --configuration Release
 echo "Cleaning the .NET application '$1': Finished."
 
-echo "Exited: clean.sh"
+echo "Exited: clean.sh $1"
