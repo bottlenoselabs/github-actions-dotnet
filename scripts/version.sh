@@ -15,7 +15,11 @@ else
 fi
 
 echo "Getting SemVer2 for the Git repository '$1'..."
-DOTNET_APP_VERSION="$(~/.dotnet/tools/dotnet-gitversion $1 /output json /showvariable NuGetVersionV2)"
-echo "Getting SemVer2 for the Git repository '$1': Finished. Verion: '$DOTNET_APP_VERSION'."
+
+# GitVersion for Windows is broken; it only returns a JSON result no matter what... Have to parse value out of JSON using Python: https://stackoverflow.com/questions/1955505/parsing-json-with-unix-tools
+~/.dotnet/tools/dotnet-gitversion $1 /output json >> $1/version.json
+DOTNET_APP_VERSION=`python -c "import sys, json; print(json.load(open(sys.argv[1]))['NuGetVersionV2'])" $1/version.json`
+rm -rf $1/version.json
+echo "Getting SemVer2 for the Git repository '$1': Finished. Version: '$DOTNET_APP_VERSION'."
 
 echo "Exited: version.sh $1"
