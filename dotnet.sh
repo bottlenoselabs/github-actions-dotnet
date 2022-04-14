@@ -45,8 +45,8 @@ else
     DOTNET_APP_API_KEY_NUGET=""
 fi
 
-source "$DIR/scripts/clean.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH
-exit_if_last_command_failed
+# source "$DIR/scripts/clean.sh" $DOTNET_APP_SOLUTION_OR_PROJECT_FILE_PATH
+# exit_if_last_command_failed
 
 source "$DIR/scripts/version.sh" $GIT_DIRECTORY_PATH
 exit_if_last_command_failed
