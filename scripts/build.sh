@@ -8,7 +8,7 @@
 echo "Entered: build.sh $1 $2"
 
 echo "Building the .NET application '$1'..."
-dotnet build $1 --nologo --verbosity normal --configuration Release -p:Version="$2"
+dotnet build $1 --nologo --verbosity diagnostic --configuration Release -p:Version="$2"
 echo "Building the .NET application '$1': Finished."
 
 echo "Exited: build.sh $1 $2"
